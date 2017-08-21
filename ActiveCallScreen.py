@@ -3,6 +3,7 @@ call_status = 'Waiting for Answer'
 conection_type = 'via WiFi'
 phone_number = '(415) 496-0838'
 
+
 mute_off = 'mute off'
 dialpad = 'dialpad'
 speaker = '//XCUIElementTypeButton[@name="speaker"]'

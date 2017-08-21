@@ -24,6 +24,7 @@ def create_parser():
     return parser
 
 
+
 parser = create_parser()
 namespace = parser.parse_args()
 device_name = namespace.device_name

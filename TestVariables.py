@@ -17,6 +17,7 @@ contacts = {'accessibility id': '', 'xpath': '//XCUIElementTypeButton[@name="Con
 keypad = {'accessibility id': '', 'xpath': '//XCUIElementTypeButton[@name="Keypad" and @x > 0]',
              'text': ''}
 
+
 settings = {'accessibility id': '', 'xpath': '//XCUIElementTypeButton[@name="Settings" and @x > 0]',
              'text': ''}
 

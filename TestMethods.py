@@ -10,7 +10,7 @@ def find_life_or_dead(victim, driver):
         if keys == 'id':
             try:
                 element = driver.find_element_by_id(victim[keys])
-                print "     Find by id"
+                print "     Find  by id"
                 break
             except:
                 print "     Could not find by id..."

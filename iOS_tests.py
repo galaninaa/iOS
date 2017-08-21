@@ -58,6 +58,7 @@ class TestAuto(unittest.TestCase):
         print self.driver.session_id
         # TM.preLogin(self.driver)
 
+
         sleep(5)
 
     def tearDown(self):
