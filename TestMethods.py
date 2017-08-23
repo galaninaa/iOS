@@ -158,8 +158,8 @@ def chat_screen_analizer(driver, phone_number):
     print tv.cs.back + " was found"
     driver.find_element_by_accessibility_id(tv.cs.more_info)
     print tv.cs.more_info + " was found"
-    driver.find_element_by_accessibility_id(phone_number)
-    print phone_number + " was found"
+    #driver.find_element_by_accessibility_id(phone_number)
+    #print phone_number + " was found"
     driver.find_element_by_accessibility_id(tv.cs.camera)
     print tv.cs.camera + " was found"
     driver.find_element_by_accessibility_id(tv.cs.sticker)
