@@ -1,5 +1,4 @@
-import More_Options
-import Settings
+
 import ActiveCallScreen as acs
 import Keypad as kpd
 import ChatScreen as cs
