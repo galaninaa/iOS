@@ -5,7 +5,7 @@ import argparse
 from time import sleep
 import TestVariables as tv
 import TestMethods as tm
-
+from appium.webdriver.common.touch_action import TouchAction
 
 
 
@@ -75,16 +75,46 @@ class TestAuto(unittest.TestCase):
         test_name = 'Keyapad > Send 50 message'
         print "Test: ", test_name
         sleep(10)
-        self.driver.find_element_by_xpath(tv.keypad['xpath']).click()
+
         sleep(5)
         phone = '3656516221'
-
+        print'We will send messages to ', phone
+        print'But in first: Let\'s clear messages history'
+        self.driver.find_element_by_xpath(tv.settings['xpath']).click()
+        print'Settings was tapped'
+        sleep(10)
+        #--Clear messages history-
+        action = TouchAction(self.driver)
+        start_scroll = self.driver.find_element_by_accessibility_id('Off')
+        end_scroll = self.driver.find_element_by_accessibility_id('Get a New Number')
+        show_delete = action.press(start_scroll).wait(300).move_to(end_scroll).release()
+        show_delete.perform()
+        print' Settings screen was scrolled'
+        sleep(2)
+        self.driver.find_element_by_accessibility_id('History').click()
+        print'History was tapped'
+        sleep(2)
+        self.driver.find_element_by_accessibility_id('Clear Messages History').click()
+        print'Clear Messages History was tapped'
+        sleep(2)
+        self.driver.find_element_by_accessibility_id('Delete').click()
+        print'Clear was accepted'
+        sleep(2)
+        self.driver.find_element_by_accessibility_id('Settings').click()
+        print'Back to Settings was tapped'
+        sleep(2)
+        # ----------------------
+        self.driver.find_element_by_xpath(tv.keypad['xpath']).click()
+        print'Keypad was tapped'
         tm.send_a_message_from_keypad(self.driver, phone)
+        print'Message Scree was opened from Keypad'
+        print'Let\'s analize chat screen...'
         tm.chat_screen_analizer(self.driver, tm.phone_format(phone))
         message_text = 'This is the message '
         for count in range(50):
             sent_message = message_text + str(count)
             tm.send_message(self.driver, sent_message)
+            print'Message '+sent_message+' was sent'
             sleep(10)
             sent_msg = self.driver.find_element_by_xpath('//XCUIElementTypeTextView[@value="' + sent_message + '"]')
             print "Sent messages: ", sent_msg.get_attribute('value')
@@ -93,9 +123,19 @@ class TestAuto(unittest.TestCase):
             error_counter = 0
             while waiting_for_answer == True:
                 try:
-
+                    print 'I\'ll wait incoming message with text: ',answer
+                    sleep(5)
                     received_msg = self.driver.find_element_by_xpath('//XCUIElementTypeTextView[@value="' + answer + '"]')
                     print 'Received message: ', received_msg.get_attribute('value')
+                    action = TouchAction(self.driver)
+                    print 'Let\'s scroll chat!'
+                    end_scroll = self.driver.find_element_by_accessibility_id(tv.cs.back)
+                    print 'Back button was found'
+                    xy = end_scroll.location
+                    print 'Back button location', xy
+                    show_delete = action.press(x=xy['x'],y=204).wait(300).move_to(end_scroll).release()
+                    show_delete.perform()
+                    #self.driver.drag_and_drop(start_scroll,end_scroll)
                     waiting_for_answer = False
                 except:
                     sleep(10)
@@ -107,18 +147,27 @@ class TestAuto(unittest.TestCase):
                         break
             if error_counter > 5:
                 print 'Aswer was not comming...'
+                self.driver.find_element_by_accessibility_id('Keypad').click()
+                sleep(2)
+                self.driver.find_element_by_accessibility_id(tv.settings['xpath']).click()
+                sleep(2)
+                action = TouchAction(self.driver)
+                start_scroll = self.driver.find_element_by_accessibility_id('Off')
+                end_scroll = self.driver.find_element_by_accessibility_id('Get a New Number')
+                show_delete = action.press(start_scroll).wait(300).move_to(end_scroll).release()
+                show_delete.perform()
                 break
-            sent_msg = self.driver.find_element_by_xpath('//XCUIElementTypeTextView[@value="' + sent_message + '"]')
-            sent_msg_xy = sent_msg.location
-            self.driver.swipe(sent_msg_xy['x'], sent_msg_xy['y'], 0 , sent_msg_xy['y'])
-            sleep(2)
-            self.driver.find_element_by_id('Delete')
-            sleep(5)
-            received_msg = self.driver.find_element_by_xpath('//XCUIElementTypeTextView[@value="' + answer + '"]')
-            received_msg_xy = received_msg.location
-            self.driver.swipe(received_msg_xy['x'], received_msg_xy['y'], 0, received_msg_xy['y'])
-            sleep(2)
-            self.driver.find_element_by_id('Delete')
+            #sent_msg = self.driver.find_element_by_xpath('//XCUIElementTypeTextView[@value="' + sent_message + '"]')
+            #sent_msg_xy = sent_msg.location
+            #self.driver.swipe(int(sent_msg_xy['x']), int(sent_msg_xy['y']) - 5, 0 , int(sent_msg_xy['y']) - 5)
+            #sleep(2)
+            #self.driver.find_element_by_id('Delete')
+            #sleep(5)
+            #received_msg = self.driver.find_element_by_xpath('//XCUIElementTypeTextView[@value="' + answer + '"]')
+            #received_msg_xy = received_msg.location
+            #self.driver.swipe(int(received_msg_xy['x']), int(received_msg_xy['y']) - 5, 0, int(received_msg_xy['y']) - 5)
+            #sleep(2)
+            #elf.driver.find_element_by_id('Delete')
         sleep(3)
 
 
