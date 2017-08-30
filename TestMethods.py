@@ -1,6 +1,18 @@
 from time import sleep
 import TestVariables as tv
+import argparse
 
+def create_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', '--device_name',
+                        default='cc1257db6dd070e229924b58a92bf51e12f93129')
+    parser.add_argument('-pl', '--platform', default='iOS')
+    parser.add_argument('-l', '--link', default='192.168.82.87')
+    parser.add_argument('-p', '--port', default='4728')
+    parser.add_argument('-f', '--folder', default='iOS')
+    parser.add_argument('-app_path', '--app_path', default=tv.app_path)
+    parser.add_argument('-plV', '--platform_version', default='7.1.2')
+    return parser
 
 def find_life_or_dead(victim, driver):
     print victim.keys()

@@ -23,3 +23,9 @@ settings = {'accessibility id': '', 'xpath': '//XCUIElementTypeButton[@name="Set
 make_call = 'make call'
 text_message = 'text message'
 
+desired_caps = {"udid": "cc1257db6dd070e229924b58a92bf51e12f93129",
+                        "platformName": "iOS",
+                        "bundleId": "im.talkme.talkmeim",
+                        "deviceName": "Anton's iPhone",
+                        "automationName": "XCUITest",
+                        "autoAcceptAlerts": 'true'}

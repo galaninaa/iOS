@@ -1,29 +1,12 @@
 import unittest
 from appium import webdriver
-import argparse
-
 from time import sleep
 import TestVariables as tv
 import TestMethods as tm
 from appium.webdriver.common.touch_action import TouchAction
+import sys
 
-
-
-def create_parser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-d', '--device_name',
-                        default='84B7N16804000866')
-    parser.add_argument('-pl', '--platform', default='iOS')
-    parser.add_argument('-l', '--link', default='192.168.82.87')
-    parser.add_argument('-p', '--port', default='4728')
-    parser.add_argument('-f', '--folder', default='Android')
-    parser.add_argument('-app_path', '--app_path', default=tv.app_path)
-    parser.add_argument('-plV', '--platform_version', default='7.1.2')
-    return parser
-
-
-
-parser = create_parser()
+parser = tm.create_parser()
 namespace = parser.parse_args()
 device_name = namespace.device_name
 platform = namespace.platform
@@ -38,28 +21,20 @@ phone_number = tv.account_data['number']
 class TestAuto(unittest.TestCase):
     def setUp(self):
         "Setup for the test"
-        desired_caps = {"udid": "cc1257db6dd070e229924b58a92bf51e12f93129",
-                        "platformName": "iOS",
-                        "bundleId": "im.talkme.talkmeim",
-                        "deviceName": "Anton's iPhone",
-                        "automationName": "XCUITest",
-                        "autoAcceptAlerts": 'true'}
+        desired_caps = tv.desired_caps
 
         self.driver = webdriver.Remote(
             'http://' + str(link) + ':' + str(port) + '/wd/hub', desired_caps)
+
         print "\n.*....*.*****.*....*....*...*******.*****..****..*******."
         print ".**...*.*......*...*...*.......*....*.....*.........*...."
         print ".*.*..*.*****...*.*.*.*........*....*****..***......*...."
         print ".*..*.*.*.......*.*.*.*........*....*.........*.....*...."
         print ".*...**.*****....*...*.........*....*****.****......*...."
-
-        print "Set up - OK!"
         print self.driver.session_id
-        # TM.preLogin(self.driver)
-
         sleep(5)
         try:
-            self.driver.find_element_by_id('Cancel')
+            self.driver.find_element_by_id('Cancel').click()
         except:
             pass
 
@@ -68,8 +43,6 @@ class TestAuto(unittest.TestCase):
         print "##########################################################"
         self.driver.quit()
         print"\n"
-
-
 
     def test_Keypad_Send_a_50_Messages(self):
         test_name = 'Keyapad > Send 50 message'
@@ -156,33 +129,10 @@ class TestAuto(unittest.TestCase):
                 end_scroll = self.driver.find_element_by_accessibility_id('Get a New Number')
                 show_delete = action.press(start_scroll).wait(300).move_to(end_scroll).release()
                 show_delete.perform()
-                break
-            #sent_msg = self.driver.find_element_by_xpath('//XCUIElementTypeTextView[@value="' + sent_message + '"]')
-            #sent_msg_xy = sent_msg.location
-            #self.driver.swipe(int(sent_msg_xy['x']), int(sent_msg_xy['y']) - 5, 0 , int(sent_msg_xy['y']) - 5)
-            #sleep(2)
-            #self.driver.find_element_by_id('Delete')
-            #sleep(5)
-            #received_msg = self.driver.find_element_by_xpath('//XCUIElementTypeTextView[@value="' + answer + '"]')
-            #received_msg_xy = received_msg.location
-            #self.driver.swipe(int(received_msg_xy['x']), int(received_msg_xy['y']) - 5, 0, int(received_msg_xy['y']) - 5)
-            #sleep(2)
-            #elf.driver.find_element_by_id('Delete')
+                sys.exit(1)
         sleep(3)
-
-
-
-
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(TestAuto)
     print "SUITE"
     unittest.TextTestRunner().run(suite)
-
-    # unittest.main(testRunner=xmlrunner.XMLTestRunner(output='/Users/galaninaa/test-reports/' ))
-    # os.path.dirname(__file__)+'/'+str(folder) + '/' + 'report' +
-    # str(datetime.datetime.now().date()))
-
-    # for running with report
-    #       runner = xmlrunner.XMLTestRunner()
-    #       runner. run(suite)
