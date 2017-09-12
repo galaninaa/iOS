@@ -3,7 +3,7 @@ from appium import webdriver
 from time import sleep
 import TestVariables as tv
 import TestMethods as tm
-import speech_recognition as sr
+import xmlrunner
 
 parser = tm.create_parser()
 namespace = parser.parse_args()
@@ -41,6 +41,7 @@ class TestAuto(unittest.TestCase):
     def test_Keypad_Make_a_50_calls(self):
         test_name = 'Keyapad > Make a 50calls'
         print "Test: ", test_name
+        print "I'll making outgoing call."
         sleep(5)
         self.driver.find_element_by_xpath(tv.keypad['xpath']).click()
         sleep(5)
@@ -48,20 +49,29 @@ class TestAuto(unittest.TestCase):
         formated_phone = tm.phone_format(phone)
         tm.make_a_call(self.driver, phone)
         for count in range(50):
-            print 'This is the call number ', count+1, ' is in progress...'
+            self.driver.find_element_by_xpath(tv.acs.speaker).click()
+            print 'This is the call number ', count+1
             #SpeakerModul
-            r = sr.Recognizer()
-            with sr.Microphone(device_index=0) as source:
-                audio = r.listen(source)
+            sleep(25)
+            self.driver.find_element_by_accessibility_id(tv.acs.call_screen_keypad).click()
+            print ' Call in progress, time of call is:  00:25'
 
-                try:
-                    print("You said :" + r.recognize_google(audio))
-                    #speaches.append(str(r.recognize_google(audio)))
+            try:
+                self.driver.find_element_by_accessibility_id(tv.acs.call_status)
+                print ' Let\'s call Alexander!!!!'
+            except:
+                pass
 
-                except:
-                    pass
+            sleep(25)
+            self.driver.find_element_by_accessibility_id(tv.acs.call_screen_keypad).click()
+            print ' Call in progress, time of call is:  00:51'
+            sleep(30)
 
-            self.driver.find_element_by_accessibility_id(tv.acs.decline).click()
+            try:
+                self.driver.find_element_by_accessibility_id(tv.acs.decline).click()
+                print ' Call was stooped from outgoing side'
+            except:
+                print ' Call was stopped from incoming side'
 
             try:
                 self.driver.find_element_by_accessibility_id(tv.acs.redial).click()
@@ -75,6 +85,5 @@ class TestAuto(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestAuto)
-    print "SUITE"
-    unittest.TextTestRunner().run(suite)
+    unittest.main(
+        testRunner=xmlrunner.XMLTestRunner(output='/Users/builder/PycharmProjects/iOS_tests/test-reports/'))

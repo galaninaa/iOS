@@ -23,7 +23,9 @@ settings = {'accessibility id': '', 'xpath': '//XCUIElementTypeButton[@name="Set
 make_call = 'make call'
 text_message = 'text message'
 
-desired_caps = {"udid": "cc1257db6dd070e229924b58a92bf51e12f93129",
+desired_caps = {"udid":
+                    #"cc1257db6dd070e229924b58a92bf51e12f93129",
+                        'ec21a45af61f2d7c54658008724b590017d2413f',
                         "platformName": "iOS",
                         "bundleId": "im.talkme.talkmeim",
                         "deviceName": "Anton's iPhone",

@@ -5,6 +5,7 @@ import TestVariables as tv
 import TestMethods as tm
 from appium.webdriver.common.touch_action import TouchAction
 import sys
+import xmlrunner
 
 parser = tm.create_parser()
 namespace = parser.parse_args()
@@ -133,6 +134,5 @@ class TestAuto(unittest.TestCase):
         sleep(3)
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestAuto)
-    print "SUITE"
-    unittest.TextTestRunner().run(suite)
+    unittest.main(
+        testRunner=xmlrunner.XMLTestRunner(output='/Users/builder/PycharmProjects/iOS_tests/test-reports/'))

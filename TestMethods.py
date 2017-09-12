@@ -5,7 +5,7 @@ import argparse
 def create_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--device_name',
-                        default='cc1257db6dd070e229924b58a92bf51e12f93129')
+                        default='ec21a45af61f2d7c54658008724b590017d2413f')
     parser.add_argument('-pl', '--platform', default='iOS')
     parser.add_argument('-l', '--link', default='192.168.82.87')
     parser.add_argument('-p', '--port', default='4728')
